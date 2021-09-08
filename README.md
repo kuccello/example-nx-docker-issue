@@ -1,94 +1,135 @@
+# Illustration that @nx-tools/nx-docker is broken
 
+## Preamble
 
-# ComEmergentbit
+Docker must be installed and running on the development system.
 
-This project was generated using [Nx](https://nx.dev).
+For this project I have been using:
+- Docker Engine: 20.10.8
+- MacOS Big Sur 11.5.2
+- Node: v16.1.0
+- Npm: 7.21.1
+- Nx: 12.9.0
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
+## Setup
 
-🔎 **Smart, Extensible Build Framework**
+1. Check out this repo: https://github.com/kuccello/example-nx-docker-issue
+2. cd into the checked out repo locally: cd example-nx-docker-issue
+3. > npm i
+4. execute the build of the singe app project: nx run hackathon-api:docker --verbose
 
-## Adding capabilities to your workspace
+TERMINAL OUTPUT:
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+```bash
+> nx run hackathon-api:docker --verbose
+::group::Docker info
+[command]/usr/local/bin/docker version
+Client:
+ Cloud integration: 1.0.17
+ Version:           20.10.8
+ API version:       1.41
+ Go version:        go1.16.6
+ Git commit:        3967b7d
+ Built:             Fri Jul 30 19:55:20 2021
+ OS/Arch:           darwin/arm64
+ Context:           default
+ Experimental:      true
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+Server: Docker Engine - Community
+ Engine:
+  Version:          20.10.8
+  API version:      1.41 (minimum version 1.12)
+  Go version:       go1.16.6
+  Git commit:       75249d8
+  Built:            Fri Jul 30 19:53:34 2021
+  OS/Arch:          linux/arm64
+  Experimental:     false
+ containerd:
+  Version:          1.4.9
+  GitCommit:        e25210fe30a0a703442421b0f60afac609f950a3
+ runc:
+  Version:          1.0.1
+  GitCommit:        v1.0.1-0-g4144b63
+ docker-init:
+  Version:          0.19.0
+  GitCommit:        de40ad0
+[command]/usr/local/bin/docker info
+Client:
+ Context:    default
+ Debug Mode: false
+ Plugins:
+  buildx: Build with BuildKit (Docker Inc., v0.6.1-docker)
+  compose: Docker Compose (Docker Inc., v2.0.0-rc.1)
+  scan: Docker Scan (Docker Inc., v0.8.0)
 
-Below are our core plugins:
+Server:
+ Containers: 3
+  Running: 0
+  Paused: 0
+  Stopped: 3
+ Images: 3
+ Server Version: 20.10.8
+ Storage Driver: overlay2
+  Backing Filesystem: extfs
+  Supports d_type: true
+  Native Overlay Diff: true
+  userxattr: false
+ Logging Driver: json-file
+ Cgroup Driver: cgroupfs
+ Cgroup Version: 1
+ Plugins:
+  Volume: local
+  Network: bridge host ipvlan macvlan null overlay
+  Log: awslogs fluentd gcplogs gelf journald json-file local logentries splunk syslog
+ Swarm: inactive
+ Runtimes: io.containerd.runc.v2 io.containerd.runtime.v1.linux runc
+ Default Runtime: runc
+ Init Binary: docker-init
+ containerd version: e25210fe30a0a703442421b0f60afac609f950a3
+ runc version: v1.0.1-0-g4144b63
+ init version: de40ad0
+ Security Options:
+  seccomp
+   Profile: default
+ Kernel Version: 5.10.47-linuxkit
+ Operating System: Docker Desktop
+ OSType: linux
+ Architecture: aarch64
+ CPUs: 4
+ Total Memory: 1.942GiB
+ Name: docker-desktop
+ ID: RJLY:P2PW:LT4O:JJOR:VSFV:XSNP:7UDL:GTW2:GWIL:4RJM:QWWV:YR56
+ Docker Root Dir: /var/lib/docker
+ Debug Mode: false
+ HTTP Proxy: http.docker.internal:3128
+ HTTPS Proxy: http.docker.internal:3128
+ Registry: https://index.docker.io/v1/
+ Labels:
+ Experimental: false
+ Insecure Registries:
+  127.0.0.0/8
+ Live Restore Enabled: false
 
-- [React](https://reactjs.org)
-  - `npm install --save-dev @nrwl/react`
-- Web (no framework frontends)
-  - `npm install --save-dev @nrwl/web`
-- [Angular](https://angular.io)
-  - `npm install --save-dev @nrwl/angular`
-- [Nest](https://nestjs.com)
-  - `npm install --save-dev @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `npm install --save-dev @nrwl/express`
-- [Node](https://nodejs.org)
-  - `npm install --save-dev @nrwl/node`
+::endgroup::
+Starting build...
+::debug::executing -> docker buildx build --iidfile /var/folders/36/m7bk9rjn2637hkt0drhkd36r0000gn/T/docker-build-push-rp8CZW/iidfile .
+[command]/usr/local/bin/docker buildx build --iidfile /var/folders/36/m7bk9rjn2637hkt0drhkd36r0000gn/T/docker-build-push-rp8CZW/iidfile .
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 2B done
+#1 DONE 0.0s
+error: failed to solve: failed to solve with frontend dockerfile.v0: failed to read dockerfile: open /var/lib/docker/tmp/buildkit-mount482450846/Dockerfile: no such file or directory
+buildx call failed with: error: failed to solve: failed to solve with frontend dockerfile.v0: failed to read dockerfile: open /var/lib/docker/tmp/buildkit-mount482450846/Dockerfile: no such file or directory
+Error: buildx call failed with: error: failed to solve: failed to solve with frontend dockerfile.v0: failed to read dockerfile: open /var/lib/docker/tmp/buildkit-mount482450846/Dockerfile: no such file or directory
+    at /Users/kristanuccello/Development/Projects/com.emergentbit/node_modules/@nx-tools/nx-docker/src/executors/build/main.js:38:23
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
 
-There are also many [community plugins](https://nx.dev/community) you could add.
+———————————————————————————————————————————————
 
-## Generate an application
+>  NX   ERROR  Running target "hackathon-api:docker" failed
 
-Run `nx g @nrwl/react:app my-app` to generate an application.
+  Failed tasks:
 
-> You can use any of the plugins above to generate applications as well.
+  - hackathon-api:docker
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
-
-## Generate a library
-
-Run `nx g @nrwl/react:lib my-lib` to generate a library.
-
-> You can also use any of the plugins above to generate libraries as well.
-
-Libraries are shareable across libraries and applications. They can be imported from `@com.emergentbit/mylib`.
-
-## Development server
-
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
-
-## Build
-
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx dep-graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev) to learn more.
-
-
-
-## ☁ Nx Cloud
-
-### Distributed Computation Caching & Distributed Task Execution
-
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
-
-Visit [Nx Cloud](https://nx.app/) to learn more.
+  Hint: run the command with --verbose for more details.
+```
