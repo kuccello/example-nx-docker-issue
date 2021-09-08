@@ -1,0 +1,60 @@
+{
+  "version": 2,
+  "projects": {
+    "hackathon-api": {
+      "root": "apps/hackathon-api",
+      "sourceRoot": "apps/hackathon-api/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/hackathon-api",
+            "main": "apps/hackathon-api/src/main.ts",
+            "tsConfig": "apps/hackathon-api/tsconfig.app.json",
+            "assets": ["apps/hackathon-api/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/hackathon-api/src/environments/environment.ts",
+                  "with": "apps/hackathon-api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "hackathon-api:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/hackathon-api/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/hackathon-api"],
+          "options": {
+            "jestConfig": "apps/hackathon-api/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/nest"
+  },
+  "defaultProject": "hackathon-api"
+}
