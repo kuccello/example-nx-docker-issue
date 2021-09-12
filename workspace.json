@@ -17,7 +17,8 @@
             "tsConfig": "apps/hackathon-api/tsconfig.app.json",
             "assets": [
               "apps/hackathon-api/src/assets"
-            ]
+            ],
+            "generatePackageJson": true
           },
           "configurations": {
             "production": {
@@ -70,7 +71,7 @@
         "docker": {
           "builder": "@nx-tools/nx-docker:build",
           "options": {
-            "dockerfile": "apps/hackathon-api/Dockerfile",
+            "file": "apps/hackathon-api/Dockerfile",
             "socket": "/var/run/docker.sock"
           }
         }
