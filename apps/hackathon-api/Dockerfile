@@ -10,8 +10,9 @@ RUN apk update && \
     apk add \
     alpine-sdk \
   && apk add --no-cache python3 py3-pip \
-  && apk add --update nodejs npm \
-  npm install --production
+  && apk add --update nodejs npm
+
+RUN npm install --production
 
 EXPOSE ${PORT}
 
